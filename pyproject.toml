@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "planrun"
+version = "0.1.0"
+description = "Composable DAG-based agent orchestration — plan file in, executed code out"
+requires-python = ">=3.13"
+license = "MIT"
+dependencies = [
+    "anthropic>=0.52.0",
+    "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+planrun = "orchestrator.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/orchestrator"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.14.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+include = ["src/**/*.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "C4", "B", "SIM", "RUF"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["orchestrator"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
